@@ -49,7 +49,7 @@
             :disabled="!valid"
             color="success"
             class="mr-4"
-            @click="validate"
+            @click="submit"
             >
             Login
             </v-btn>
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
       return {
@@ -81,18 +83,37 @@ export default {
         requireRuls: [
           v => !!v || '패스워드는 필수입력입니다',
         ],
-        email: '',
+        email: 'test@test.com',
         emailRules: [
           v => !!v || '이메일은 필수입력입니다.',
           v => /.+@.+\..+/.test(v) || '유효한 이메일이 아닙니다',
         ],
-        passwd: '',
+        passwd: '1111',
         show1: false,
         checkbox: false,
       }
     },
 
     methods: {
+      submit(){
+        const headers = {
+          'Content-type': 'application/json;',
+        }
+        var data = {
+          email : this.email,
+          passwd : this.passwd,
+        }
+        axios.post(`${process.env.VUE_APP_API_URL}/login`, data, headers)
+        .then(res => {
+          if(res.data.result == 'OK'){
+            this.$cookies.set("user_idx", "1");
+            // this.$cookies.remove("user_idx");
+
+            this.$router.push("/")
+          }
+        })
+        .catch(error => console.log(error))
+      },
       validate () {
         this.$refs.form.validate()
       },

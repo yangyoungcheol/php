@@ -66,7 +66,7 @@
             :disabled="!valid"
             color="success"
             class="mr-4"
-            @click="validate"
+            @click="submit"
             >
             Submit
             </v-btn>
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
       return {
@@ -96,6 +98,22 @@ export default {
     },
 
     methods: {
+
+      submit(){
+        const headers = {
+          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Accept': '*/*'
+        }
+        var data = {
+          name : this.name,
+          email : this.email,
+          passwd : this.passwd,
+        }
+        axios.post(`${process.env.VUE_APP_API_URL}/test`, data, headers)
+        .then(res => {
+          console.log(res)
+        })
+      },
       validate () {
         this.$refs.form.validate()
       },

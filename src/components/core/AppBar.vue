@@ -31,6 +31,13 @@
           class="hidden-sm-and-down"
           text
         >
+          <router-link to="/posts">posts</router-link>
+        </v-btn>
+
+        <v-btn
+          class="hidden-sm-and-down"
+          text
+        >
           <router-link to="/login">Login</router-link>
         </v-btn>
 
@@ -43,13 +50,16 @@
 
         <v-btn
           class="hidden-sm-and-down"
+          outlined
           text
+          @click="logout"
         >
-          <router-link to="/posts">Images</router-link>
+          Logout
         </v-btn>
 
         <v-spacer />
-
+{{isLogined}}
+{{user_idx}}
       </v-row>
     </v-container>
   </v-app-bar>
@@ -68,7 +78,7 @@
     data() {
       return {
         isLogined : false,
-        user_idx : this.$store.state.user_idx,
+        user_idx : this.$cookies.get('user_idx'),
       }
     },
 
@@ -85,7 +95,23 @@
 
         this.$vuetify.goTo(item.href.endsWith('!') ? 0 : item.href)
       },
+
+      check_login(loginchker){
+        if(loginchker > 0){
+          this.isLogined = true
+        }
+      },
+
+      logout(){
+        this.$cookies.remove("user_idx");
+        this.$router.push("/")
+      }
+
     },
+
+    mounted() {
+      this.check_login(this.user_idx)
+    }
   }
 </script>
 
