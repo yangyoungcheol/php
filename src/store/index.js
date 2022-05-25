@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import cookies from 'vue-cookies'
 
 Vue.use(Vuex)
 
@@ -25,7 +26,8 @@ export default new Vuex.Store({
         href: '#about',
       },
     ],
-    user_idx : 0,
+    user_idx : cookies.get('user_idx'),
+    IMG_URL: 'http://localhost:8088/post/image',
   },
   getters: {
     categories: state => {

@@ -6,10 +6,8 @@
     <base-subheading>About Us</base-subheading>
 
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut tortor tellus. Donec maximus curs us pulvinar.
-      Proin vehicula eros mauris, sit amet rutrum libero vestibulum ac. Morbi ullamcorper eu lacus vulputate consect.
-      Etur vivamus sagittis accumsan quam eu malesuada. Proin et ante vel libero ultrices cursus. Donec felis leo, cu
-      rsus eget hendrerit at, congue nec enim.
+      This website is just assignment for PHP class.<br>
+      We do not use for commercial purposes.
     </p>
   </v-container>
 </template>
@@ -19,3 +17,7 @@
     name: 'HomeAbout',
   }
 </script>
+
+<style scoped>
+
+</style>

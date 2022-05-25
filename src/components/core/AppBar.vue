@@ -34,6 +34,9 @@
           <router-link to="/posts">posts</router-link>
         </v-btn>
 
+
+
+        <div v-if="isLogined==false">
         <v-btn
           class="hidden-sm-and-down"
           text
@@ -47,19 +50,31 @@
         >
           <router-link to="/signin">Signin</router-link>
         </v-btn>
+        </div>
 
-        <v-btn
-          class="hidden-sm-and-down"
+
+
+        <div v-else>
+        <v-btn 
+          class="hidden-sm-and-down ml-4"
           outlined
           text
           @click="logout"
         >
           Logout
         </v-btn>
+        </div>
 
         <v-spacer />
-{{isLogined}}
-{{user_idx}}
+
+        <div 
+          v-if="isLogined"
+          class="mx-auto"
+          @click="$router.push('/write')"
+        >
+          <v-btn>POST 등록</v-btn>
+        </div>
+
       </v-row>
     </v-container>
   </v-app-bar>
@@ -96,22 +111,37 @@
         this.$vuetify.goTo(item.href.endsWith('!') ? 0 : item.href)
       },
 
-      check_login(loginchker){
-        if(loginchker > 0){
-          this.isLogined = true
-        }
-      },
-
       logout(){
         this.$cookies.remove("user_idx");
-        this.$router.push("/")
+        this.$router.go("/")
+      },
+
+      loginChk1(){
+        console.log(this.user_idx)
+        if(this.user_idx > 0)
+          return true
+        else
+          return false
+      },
+      loginChk2(){
+        console.log(this.user_idx)
+        if(this.user_idx > 0)
+          return false
+        else
+          return true
+      },
+
+      loginChk(){
+        if(this.user_idx > 0) this.isLogined = true
+        else this.isLogined = false
       }
 
     },
 
     mounted() {
-      this.check_login(this.user_idx)
-    }
+      this.loginChk()
+    },
+
   }
 </script>
 

@@ -5,11 +5,12 @@ import Login from '../views/Login.vue'
 import Signin from '../views/Signin.vue'
 import Profile from '../views/Profile.vue'
 import Posts from '../views/Posts.vue'
+import Write from '../views/Write.vue'
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -36,6 +37,11 @@ export default new Router({
       path: '/posts',
       name: 'posts',
       component: Posts,
+    },
+    {
+      path: '/write',
+      name: 'write',
+      component: Write,
     },
   ],
 })

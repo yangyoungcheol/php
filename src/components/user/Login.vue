@@ -7,6 +7,20 @@
         Login
     </v-card-title>
 
+        <v-slide-y-transition
+          v-if="notice == true"
+          tag="v-alert"
+          fluid
+        >
+        <v-alert
+          dense
+          border="left"
+          type="warning"
+        >
+          이메일 또는 패스워드가 일치하지 않습니다.
+        </v-alert>
+        </v-slide-y-transition>
+          
         <v-form
             ref="form"
             v-model="valid"
@@ -78,6 +92,7 @@ import axios from 'axios'
 export default {
     data() {
       return {
+        notice : false,
         valid: true,
         name: '',
         requireRuls: [
@@ -105,12 +120,23 @@ export default {
         }
         axios.post(`${process.env.VUE_APP_API_URL}/login`, data, headers)
         .then(res => {
+          console.log(res.data.result)
+          console.log(res.data)
           if(res.data.result == 'OK'){
-            this.$cookies.set("user_idx", "1");
+            this.$cookies.set("user_idx", res.data.user_idx);
             // this.$cookies.remove("user_idx");
 
-            this.$router.push("/")
+            //this.$router.push("/")
+            location.replace("/")
+          }else{
+            this.notice = true
+            var settime = setTimeout(()=> {
+              this.notice=false
+              clearInterval(settime)
+              }, 3000)
+            //clearInterval(intvalid)
           }
+
         })
         .catch(error => console.log(error))
       },
@@ -123,6 +149,8 @@ export default {
       resetValidation () {
         this.$refs.form.resetValidation()
       },
+
+
     },
   }
 </script>

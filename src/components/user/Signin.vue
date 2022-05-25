@@ -14,13 +14,15 @@
         >
             <v-text-field
             v-model="name"
-            :rules="requireRuls"
+            ref="name"
             label="이름"
+            :rules="requireRuls"
             required
             ></v-text-field>
 
             <v-text-field
             v-model="email"
+            ref="email"
             :rules="emailRules"
             label="E-mail"
             required
@@ -29,6 +31,7 @@
 
             <v-text-field
             v-model="passwd"
+            ref="passwd"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
             :rules="requireRuls"
@@ -39,6 +42,7 @@
 
             <v-text-field
             v-model="re_passwd"
+            ref="re_passwd"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
             :rules="requireRuls"
@@ -64,6 +68,7 @@
 
             <v-btn
             :disabled="!valid"
+            :loading="btn_loading"
             color="success"
             class="mr-4"
             @click="submit"
@@ -83,7 +88,7 @@ export default {
         valid: true,
         name: '',
         requireRuls: [
-          v => !!v || '패스워드는 필수입력입니다',
+          v => !!v || '필수입력 사항 입니다',
         ],
         email: '',
         emailRules: [
@@ -94,12 +99,16 @@ export default {
         show1: false,
         checkbox: false,
         re_passwd : '',
+        btn_loading:false,
       }
     },
 
     methods: {
-
+      
       submit(){
+        if(!this.validate()){
+          return false;
+        }
         const headers = {
           'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'Accept': '*/*'
@@ -109,13 +118,44 @@ export default {
           email : this.email,
           passwd : this.passwd,
         }
-        axios.post(`${process.env.VUE_APP_API_URL}/test`, data, headers)
+        this.btn_loading = true
+        axios.post(`${process.env.VUE_APP_API_URL}/signin`, data, headers)
         .then(res => {
           console.log(res)
+          if(res.data.result == 'OK'){
+            axios.post(`${process.env.VUE_APP_API_URL}/login`, {email:this.email, passwd:this.passwd}, headers)
+            .then(res => {
+              if(res.data.result == 'OK'){
+                this.$cookies.set("user_idx", res.data.user_idx);
+                // this.$cookies.remove("user_idx");
+
+                //this.$router.push("/")
+                location.replace("/")
+              }else{
+                location.replace("/login")
+              }
+            })
+          }
         })
       },
       validate () {
-        this.$refs.form.validate()
+        if(!this.$refs.name.validate()){
+          this.$refs.name.focus();
+          return false;
+        }
+        if(!this.$refs.email.validate()){
+          this.$refs.email.focus();
+          return false;
+        }
+        if(!this.$refs.passwd.validate()){
+          this.$refs.passwd.focus();
+          return false;
+        }
+        if(!this.$refs.re_passwd.validate()){
+          this.$refs.re_passwd.focus();
+          return false;
+        }
+        return true;
       },
       reset () {
         this.$refs.form.reset()
