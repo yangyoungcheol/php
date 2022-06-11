@@ -27,7 +27,7 @@ export default new Vuex.Store({
       },
     ],
     user_idx : cookies.get('user_idx'),
-    IMG_URL: 'http://localhost:8090/post/image',
+    IMG_URL: `${process.env.VUE_APP_API_URL}/post/image`,
   },
   getters: {
     categories: state => {

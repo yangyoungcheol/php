@@ -98,12 +98,12 @@ export default {
         requireRuls: [
           v => !!v || '패스워드는 필수입력입니다',
         ],
-        email: 'test@test.com',
+        email: '',
         emailRules: [
           v => !!v || '이메일은 필수입력입니다.',
           v => /.+@.+\..+/.test(v) || '유효한 이메일이 아닙니다',
         ],
-        passwd: '1111',
+        passwd: '',
         show1: false,
         checkbox: false,
       }

@@ -12,7 +12,7 @@
     >
       <v-card
         class="pa-2"
-        width="400"
+        width="350"
         contain
       >
         <v-img
