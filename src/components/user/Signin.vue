@@ -110,8 +110,7 @@ export default {
           return false;
         }
         const headers = {
-          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'Accept': '*/*'
+          'Content-type': 'json',
         }
         var data = {
           name : this.name,

@@ -90,7 +90,7 @@
 import axios from 'axios'
 
 export default {
-    data() {
+    data () {
       return {
         notice : false,
         valid: true,
@@ -110,7 +110,7 @@ export default {
     },
 
     methods: {
-      submit(){
+      submit () {
         const headers = {
           'Content-type': 'application/json;',
         }

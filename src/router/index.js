@@ -29,7 +29,7 @@ export default new Router({
       component: Signin,
     },
     {
-      path: '/profile',
+      path: '/profile/:user_idx',
       name: 'profile',
       component: Profile,
     },

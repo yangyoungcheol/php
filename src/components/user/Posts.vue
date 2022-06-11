@@ -53,12 +53,16 @@
           <div
             width="100%"
           >
-            <v-btn
-              small
-              class="blue-grey lighten-5 ml-2"
+            <router-link
+              :to="`/profile/${data.user_idx}`"
             >
-              {{ data.user_name }}
-            </v-btn>
+              <v-btn
+                small
+                class="blue-grey lighten-5 ml-2"
+              >
+                {{ data.user_name }}
+              </v-btn>
+            </router-link>
           </div>
           
           <div
@@ -98,7 +102,7 @@
 <script>
 import axios from 'axios'
 import cookies from 'vue-cookies'
-const hosts = `${process.env.VUE_APP_API_URL}`
+const _hosts = `${process.env.VUE_APP_API_URL}`
 
 export default {
   data () {
@@ -113,14 +117,15 @@ export default {
   },
   methods: {
     likesProc (postIdx, index) {
+      console.log(_hosts)
       if(postIdx && this.user_idx) {
-        axios.get(hosts + "/posts/likes?post_idx=" + postIdx + "&user_idx=" + this.user_idx)
+        axios.get(_hosts + "/posts/likes?post_idx=" + postIdx + "&user_idx=" + this.user_idx)
           .then(res => {
             // console.log(res)
             if (res.data.result == 'plus') {
-              this.items[index].likes += 1
+              this.items[index].likes ++
             }else{
-              this.items[index].likes -= 1
+              this.items[index].likes --
             }
           })
           .catch(err => {
@@ -134,7 +139,7 @@ export default {
         // 'Content-type': 'application/x-www-form-urlencoded',
       }
 
-      axios.get(hosts + '/posts/list')
+      axios.get(_hosts + '/posts/list')
         .then(res => {
           // console.log(res.data)
           // var itemArr = []
@@ -146,7 +151,7 @@ export default {
           //   })
           // }
           this.items = res.data
-          // console.log(itemArr)
+          // console.log(res.data)
 
         })
         .catch(error => {

@@ -11,23 +11,23 @@ export default new Vuex.Store({
     items: [
       {
         text: 'Pinstagram',
-        href: '#!',
+        href: '/#/',
       },
       {
         text: 'Login',
-        href: '#!',
+        href: '/#/login',
       },
       {
         text: 'Signin',
-        href: '#about',
+        href: '/#/signin',
       },
       {
-        text: 'images',
-        href: '#about',
+        text: 'Posts',
+        href: '/#/posts',
       },
     ],
     user_idx : cookies.get('user_idx'),
-    IMG_URL: 'http://localhost:8088/post/image',
+    IMG_URL: 'http://localhost:8090/post/image',
   },
   getters: {
     categories: state => {
