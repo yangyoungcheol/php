@@ -1,7 +1,7 @@
 <template>
     <v-card
     class="mx-auto pa-5 mt-2"
-    max-width="600"
+    max-width="90%"
   >
       <v-card-title class="text-h5">
           Profile
@@ -22,6 +22,8 @@
           >
             <v-btn
               v-if="!is_follow"
+              :small="$vuetify.breakpoint.mdAndDown"
+              @click="goFollow"
             >
               <v-icon>
                 mdi-plus
@@ -32,6 +34,8 @@
             <v-btn
               v-else
               class="red"
+              :small="$vuetify.breakpoint.mdAndDown"
+              @click="goFollow"
             >
               <v-icon>
                 mdi-minus
@@ -50,9 +54,13 @@
           <v-row>
             <v-col>
               <v-card>
-                <v-card-title>
+                <v-card
+                  class="text-h6 pa-4"
+                  tile
+                  flat
+                >
                   Posts
-                </v-card-title>
+                </v-card>
                 <v-divider />
                 <v-card-text
                   class="text-center text-h6"
@@ -63,9 +71,13 @@
             </v-col>
             <v-col>
               <v-card>
-                <v-card-title>
+                <v-card
+                  class="text-h6 pa-4"
+                  tile
+                  flat
+                >
                   Follower
-                </v-card-title>
+                </v-card>
                 <v-divider />
                 <v-card-text
                   class="text-center text-h6"
@@ -76,9 +88,13 @@
             </v-col>
             <v-col>
               <v-card>
-                <v-card-title>
+                <v-card
+                  class="text-h6 pa-4"
+                  tile
+                  flat
+                >
                   Following
-                </v-card-title>
+                </v-card>
                 <v-divider />
                 <v-card-text
                   class="text-center text-h6"
@@ -152,6 +168,20 @@ export default {
         this.itsMe = true
         this.is_follow = false
       }
+    },
+
+    goFollow () {
+      var data = {
+        user_idx: this.user_idx,
+        target_idx: this.target_idx
+      }
+      var header = {
+        'content-type' : 'application/json',
+      }
+      axios.post(_hosts + '/follow/set', data, header)
+        .then(res => {
+          this.setFollowBtn()
+        })
     },
 
     async getUserInfo () {

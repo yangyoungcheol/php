@@ -1,13 +1,16 @@
 <template>
-  <div
-    class="mt-4 my-6 pl-4"
+  <v-card
+    class="d-flex align-content-start flex-wrap justify-space-around mt-4 my-6 pl-0 ml-0"
+    tile
+    flat
     align="start"
   >
     <v-card
       v-for="(data, i) in items "
       :key="i"
       :value="data"
-      class="mx-8 my-6 d-inline-flex child-flex"
+      class=" my-6 mr-2"
+      height="100%"
       elevation="9"
     >
       <v-card
@@ -15,12 +18,14 @@
         width="350"
         contain
       >
-        <v-img
+        <!-- <v-img
           :src="`${IMG_HOST}?post_idx=${data.idx}`"
           :lazy-src="`${IMG_HOST}?post_idx=${data.idx}`"
           :class="`${data.filter_name} white--text`"
           max-width="400"
-        >
+        > -->
+        <zoom-pic :post_idx_props="data.idx" :filter_props="data.filter_name" :host_props="IMG_HOST" />
+
           <template v-slot:placeholder>
             <v-row
               class="fill-height ma-0"
@@ -34,8 +39,6 @@
             </v-row>
           </template>
           <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->
-        </v-img>
-
         <v-card-subtitle class="pb-0">
           {{ data.name }}
         </v-card-subtitle>
@@ -96,15 +99,19 @@
         </v-card-actions>
       </v-card>
     </v-card>
-  </div>
+  </v-card>
 </template>
 
 <script>
 import axios from 'axios'
 import cookies from 'vue-cookies'
+import ZoomPic from '@/components/dialog/OriginPic.vue'
 const _hosts = `${process.env.VUE_APP_API_URL}`
 
 export default {
+  components: {
+    ZoomPic,
+  },
   data () {
     return {
       IMG_HOST: this.$store.state.IMG_URL,
